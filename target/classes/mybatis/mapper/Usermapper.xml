@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.mapper.Usermapper">
+    <!--增加新用户-->
+    <insert id="addUserInfo" parameterType="com.test.pojo.User">
+        insert  into pruereadroom.user(username,UID,I_like,I_focus,I_fans,sex,birthday,address,headpicture,I_sign,money)
+        VALUES(#{username},#{UID},#{I_like},#{I_focus},#{I_fans},#{sex},#{birthday},#{address},#{headpicture},#{I_sign},#{money})
+    </insert>
+
+    <!--删除用户-->
+    <delete id="deleteUserInfo" parameterType="com.test.pojo.User">
+        delete from pruereadroom.user
+        where id=#{id}
+    </delete>
+    <!--更改用户信息-->
+    <update id="updateUserInfo" parameterType="com.test.pojo.User">
+        update pruereadroom.user
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="I_like != null">
+                I_like = #{I_like},
+            </if>
+            <if test="I_focus != null">
+                I_focus = #{I_focus},
+            </if>
+            <if test="I_fans != null">
+                I_fans = #{I_fans},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="birthday != null and birthday != ''">
+                birthday = #{birthday},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="headpicture != null and headpicture != ''">
+                headpicture = #{headpicture},
+            </if>
+            <if test="I_sign != null and I_sign != ''">
+                I_sign = #{I_sign},
+            </if>
+            <if test="money != null">
+                money = #{money},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!--更改用户信息-->
+    <update id="updateUserInfobyuid" parameterType="com.test.pojo.User">
+        update pruereadroom.user
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="birthday != null and birthday != ''">
+                birthday = #{birthday},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="headpicture != null and headpicture != ''">
+                headpicture = #{headpicture},
+            </if>
+            <if test="I_sign != null and I_sign != ''">
+                I_sign = #{I_sign},
+            </if>
+        </set>
+        where UID = #{UID}
+    </update>
+    <!--查看个人用户信息-->
+    <select id="selectUserInfo" resultType="com.test.pojo.User">
+        select * from pruereadroom.user
+        where id=#{id}
+    </select>
+    <!--查看所有用户信息-->
+    <select id="selectUserInfos" resultType="com.test.pojo.User">
+        select * from pruereadroom.user limit #{page},#{limit}
+    </select>
+
+    <select id="selectwhereUserInfo" resultType="com.test.pojo.User">
+        select * from pruereadroom.user
+        where id=#{id}
+    </select>
+
+    <select id="selectUID" resultType="com.test.pojo.User">
+        select * from pruereadroom.user
+        where UID=#{UID}
+    </select>
+
+
+</mapper>

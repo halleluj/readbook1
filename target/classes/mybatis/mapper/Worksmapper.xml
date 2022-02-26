@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.mapper.Worksmapper">
+    <!--增加新用户-->
+    <insert id="addworkInfo" parameterType="com.test.pojo.Works">
+        insert  into pruereadroom.works(w_id, UID, text_content, w_data,wCode)
+        VALUES(#{w_id},#{UID},#{text_content},#{w_data},0)
+    </insert>
+
+    <!--删除用户-->
+    <delete id="deleteworkInfo" parameterType="com.test.pojo.Works">
+        delete from pruereadroom.works
+        where w_id=#{w_id}
+    </delete>
+    <!--更改用户信息-->
+    <update id="updateworkInfo" parameterType="com.test.pojo.Works">
+        update pruereadroom.works
+        set w_id=#{w_id},UID=#{UID},text_content=#{text_content},w_data=#{w_data}
+        where w_id=#{w_id}
+    </update>
+    <!--查看个人用户信息-->
+    <select id="selectworkInfo" resultType="com.test.pojo.Works">
+        select * from pruereadroom.works
+        where UID=#{UID}
+    </select>
+    <!--查看所有用户信息-->
+    <select id="selectworkInfos" resultType="com.test.pojo.Works">
+        select * from pruereadroom.works limit #{page},#{limit}
+    </select>
+
+    <select id="selectwhereworkInfo" resultType="com.test.pojo.Works">
+        select * from pruereadroom.works
+        <where>
+            <if test="wCode != null">
+                and wCode=#{wCode}
+            </if>
+        </where>
+        limit #{page},#{limit}
+    </select>
+
+    <!--审核用户-->
+    <update id="checkworkinfo" parameterType="com.test.pojo.Works">
+        update pruereadroom.works
+        set wCode=#{wCode}
+        where w_id=#{w_id}
+    </update>
+
+    <select id="rightworks" resultType="com.test.pojo.Works">
+        select * from pruereadroom.works
+         <where>
+         <if test="wCode != null">
+             and wCode=#{wCode}
+         </if>
+        </where>
+        limit #{page},#{limit}
+    </select>
+
+    <select id="rightworks2" resultType="com.test.pojo.Works">
+        select * from pruereadroom.works
+        <where>
+            <if test="UID!=null">
+                and UID=#{UID}
+            </if>
+             and wCode=1
+        </where>
+        limit #{page},#{limit}
+    </select>
+
+</mapper>

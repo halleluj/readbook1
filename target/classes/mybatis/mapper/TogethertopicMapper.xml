@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.mapper.TogethertopicMapper">
+    <!--通过实体作为筛选条件查询-->
+    <select id="selectbytype" resultType="com.test.pojo.Togethertopic">
+        select
+        togetherId, togetherName, togetherGlance, togetherFire, togetherType, togetherPicture
+        from pruereadroom.togethertopic
+        <where>
+            <if test="togetherType != null and togetherType != ''">
+                and togetherType like concat('%',#{togetherType},'%')
+        </if>
+        </where>
+         limit #{page},#{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="selectbytypeone" resultType="com.test.pojo.Togethertopic">
+        select
+        togetherId, togetherName, togetherGlance, togetherFire, togetherType, togetherPicture
+        from pruereadroom.togethertopic
+        <where>
+            <if test="togetherType != null and togetherType != ''">
+                and togetherType like concat(concat('%',#{togetherType},'%'))
+            </if>
+        </where>
+        limit #{page},#{limit}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById"  resultType="com.test.pojo.Togethertopic">
+        select
+          togetherId, togetherName, togetherGlance, togetherFire, togetherType, togetherPicture
+        from pruereadroom.togethertopic
+        where togetherId = #{togetherId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultType="com.test.pojo.Togethertopic">
+        select *
+        from pruereadroom.togethertopic
+        limit #{page}, #{limit}
+    </select>
+
+
+    <!--新增所有列-->
+    <insert id="insertTopic" parameterType="com.test.pojo.Togethertopic" >
+        insert into pruereadroom.togethertopic(togetherId,togetherName, togetherGlance, togetherFire, togetherType, togetherPicture)
+        values (#{togetherId},#{togetherName}, #{togetherGlance}, #{togetherFire}, #{togetherType}, #{togetherPicture})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateTopic" parameterType="com.test.pojo.Togethertopic">
+        update pruereadroom.togethertopic
+        <set>
+            <if test="togetherName != null and togetherName != ''">
+                togetherName = #{togetherName},
+            </if>
+            <if test="togetherGlance != null and togetherGlance != ''">
+                togetherGlance = #{togetherGlance},
+            </if>
+            <if test="togetherFire != null and togetherFire != ''">
+                togetherFire = #{togetherFire},
+            </if>
+            <if test="togetherType != null and togetherType != ''">
+                togetherType = #{togetherType},
+            </if>
+            <if test="togetherPicture != null and togetherPicture != ''">
+                togetherPicture = #{togetherPicture},
+            </if>
+        </set>
+        where togetherId = #{togetherId}
+    </update>
+
+    <delete id="deleteTopic" parameterType="com.test.pojo.Togethertopic">
+     delete  from pruereadroom.togethertopic
+  where togetherId=#{togetherId}
+
+    </delete>
+</mapper>

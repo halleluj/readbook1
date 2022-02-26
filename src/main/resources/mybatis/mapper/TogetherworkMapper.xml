@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.mapper.TogetherworkMapper">
+
+
+
+    <!--查询单个-->
+    <select id="queryById" resultType="com.test.pojo.Tworklinkuser">
+        select *
+        from pruereadroom.tworklinkuser
+        where ID = #{ID}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultType="com.test.pojo.Tworklinkuser">
+        select *
+        from pruereadroom.tworklinkuser
+        limit #{page}, #{limit}
+    </select>
+
+    <!--    查询某一篇一起写的文章-->
+    <select id="queryAllbyTID" resultType="com.test.pojo.Tworklinkuser">
+        select *
+        from pruereadroom.tworklinkuser
+        <where>
+            <if test="togetherId != null">
+                and togetherId = #{togetherId}
+            </if>
+                and tCode=1
+        </where>
+     limit #{page},#{limit}
+    </select>
+
+<!--查询某用户写的一起写文章-->
+    <select id="queryAllbyUID" resultType="com.test.pojo.Tworklinkuser">
+        select *
+        from pruereadroom.tworklinkuser
+        <where>
+
+            <if test="UID != null">
+                and UID = #{UID}
+            </if>
+                and tCode=1
+        </where>
+       limit #{page},#{limit}
+    </select>
+
+
+    <!--通过实体作为筛选条件查询-->
+<!--    <select id="queryAll" resultMap="BaseResultMap">-->
+<!--        select-->
+<!--          ID, togetherId, UID, togetherContent, togetherMap-->
+<!--        from pruereadroom.togetherwork-->
+<!--        <where>-->
+<!--            <if test="id != null">-->
+<!--                and ID = #{id}-->
+<!--            </if>-->
+<!--            <if test="togetherid != null">-->
+<!--                and togetherId = #{togetherid}-->
+<!--            </if>-->
+<!--            <if test="uid != null">-->
+<!--                and UID = #{uid}-->
+<!--            </if>-->
+<!--            <if test="togethercontent != null and togethercontent != ''">-->
+<!--                and togetherContent = #{togethercontent}-->
+<!--            </if>-->
+<!--            <if test="togethermap != null and togethermap != ''">-->
+<!--                and togetherMap = #{togethermap}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+
+    <!--新增所有列-->
+    <insert id="writeByID" parameterType="com.test.pojo.Togetherwork">
+        insert into pruereadroom.togetherwork(togetherId, UID, togetherContent, togetherMap,tCode)
+        values (#{togetherId}, #{UID}, #{togetherContent}, #{togetherMap},0)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updatetogether" parameterType="com.test.pojo.Togetherwork">
+        update pruereadroom.togetherwork
+        <set>
+            <if test="togetherId != null">
+                togetherId = #{togetherId},
+            </if>
+            <if test=" UID!= null">
+                UID = #{UID},
+            </if>
+            <if test="togetherContent != null and togetherContent != ''">
+                togetherContent = #{togetherContent},
+            </if>
+            <if test="togetherMap != null and togetherMap != ''">
+                togetherMap = #{togethermap},
+            </if>
+        </set>
+        where ID = #{ID}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="com.test.pojo.Togetherwork">
+        delete from pruereadroom.togetherwork where ID = #{ID}
+    </delete>
+
+<!--    审查作品-->
+    <update id="checkthis" parameterType="com.test.pojo.Togetherwork">
+        update  pruereadroom.togetherwork
+        set tCode=#{tCode}
+        where ID=#{ID}
+    </update>
+
+<!--查看带指定状态得作品-->
+    <select id="selectright" resultType="com.test.pojo.Tworklinkuser">
+        select *
+        from pruereadroom.tworklinkuser
+        where tCode=#{tCode}
+        limit #{page},#{limit}
+    </select>
+</mapper>

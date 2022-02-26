@@ -1,0 +1,15 @@
+server:
+  port: 8001
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: com.test.pojo
+
+spring:
+  application:
+    name:exam-provider-basic
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: pruereadroom
+    password: 123456
+    url: jdbc:mysql://localhost:3306/pruereadroom?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8

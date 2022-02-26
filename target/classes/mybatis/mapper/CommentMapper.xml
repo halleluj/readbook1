@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.mapper.CommentMapper">
+
+    <!--查询单个-->
+    <select id="queryById" resultType="com.test.pojo.Commentuser">
+        select *
+        from pruereadroom.commentuser
+        where commentId = #{commentId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultType="com.test.pojo.Commentuser">
+        select *
+        from pruereadroom.commentuser
+        limit #{page}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllByOne" resultType="com.test.pojo.Commentuser" >
+        select *
+        from pruereadroom.commentuser
+        <where>
+            <if test="article_id != null">
+                and article_id = #{article_id}
+            </if>
+        </where>
+        limit   #{page}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllByOne2" resultType="com.test.pojo.Commentuser" >
+        select *
+        from pruereadroom.commentuser
+        <where>
+            <if test="togetherId != null">
+                and togetherId = #{togetherId}
+            </if>
+        </where>
+        limit   #{page}, #{limit}
+    </select>
+
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllByOne3" resultType="com.test.pojo.Commentuser" >
+        select *
+        from pruereadroom.commentuser
+        <where>
+            <if test="UID!= null and UID!= ''">
+                and UID = #{UID}
+            </if>
+        </where>
+        limit   #{page}, #{limit}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insertNewComment" parameterType="com.test.pojo.Comment">
+        insert into pruereadroom.comment(article_id, togetherId, UID, commentNote)
+        values (#{article_id}, #{togetherId}, #{UID}, #{commentNote})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateComment" parameterType="com.test.pojo.Comment">
+        update pruereadroom.comment
+        <set>
+            <if test="article_id != null">
+                article_id = #{article_id},
+            </if>
+            <if test="togetherId != null">
+                togetherId = #{togetherId},
+            </if>
+            <if test=" UID!= null and UID != ''">
+                UID = #{UID},
+            </if>
+            <if test="commentNote != null and commentNote != ''">
+                commentNote = #{commentNote},
+            </if>
+        </set>
+        where commentId = #{commentId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="com.test.pojo.Comment">
+        delete from pruereadroom.comment where commentId = #{commentId}
+    </delete>
+
+</mapper>

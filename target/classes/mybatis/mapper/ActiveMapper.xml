@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.mapper.ActiveMapper">
+
+    <!--查询单个-->
+    <select id="selectActiveInfo" resultType="com.test.pojo.Active">
+        select
+          activeID, activeName, activePicture, activeNote, activeNumber, activeCode
+        from pruereadroom.active
+        where activeID = #{activeID}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="selectActiveInfos" resultType="com.test.pojo.Active">
+        select
+          activeID, activeName, activePicture, activeNote, activeNumber, activeCode
+        from pruereadroom.active
+        limit #{page}, #{limit}
+    </select>
+
+<!--查询未结束的活动-->
+    <select id="selectpActivecode" resultType="com.test.pojo.Active">
+        select * from pruereadroom.active
+        <where>
+            <if test="activeCode != null">
+                and activeCode=#{activeCode}
+            </if>
+        </where>
+        limit #{page},#{limit}
+    </select>
+
+<!--    &lt;!&ndash;通过实体作为筛选条件查询&ndash;&gt;-->
+<!--    <select id="queryAll" resultMap="BaseResultMap">-->
+<!--        select-->
+<!--          activeID, activeName, activePicture, activeNote, activeNumber, activeCode-->
+<!--        from pruereadroom.active-->
+<!--        <where>-->
+<!--            <if test="activeID!= null">-->
+<!--                and activeID = #{activeID}-->
+<!--            </if>-->
+<!--            <if test="activeName != null and activeName != ''">-->
+<!--                and activeName = #{activeName}-->
+<!--            </if>-->
+<!--            <if test="activePicture != null and activePicture != ''">-->
+<!--                and activePicture = #{activePicture}-->
+<!--            </if>-->
+<!--            <if test="activeNote != null and activeNote != ''">-->
+<!--                and activeNote = #{activeNote}-->
+<!--            </if>-->
+<!--            <if test="activeNumber != null">-->
+<!--                and activeNumber = #{activeNumber}-->
+<!--            </if>-->
+<!--            <if test="activeCode != null">-->
+<!--                and activeCode = #{activeCode}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+
+    <!--新增所有列-->
+    <insert id="addActiveInfo" parameterType="com.test.pojo.Active">
+        insert into pruereadroom.active(activeName, activePicture, activeNote, activeNumber, activeCode)
+        values (#{activeName}, #{activePicture}, #{activeNote}, #{activeNumber}, #{activeCode})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateActiveInfo" parameterType="com.test.pojo.Active">
+        update pruereadroom.active
+        <set>
+            <if test="activeName != null and activeName != ''">
+                activeName = #{activeName},
+            </if>
+            <if test="activePicture != null and activePicture != ''">
+                activePicture = #{activePicture},
+            </if>
+            <if test="activeNote != null and activeNote != ''">
+                activeNote = #{activeNote},
+            </if>
+            <if test="activeNumber != null">
+                activeNumber = #{activeNumber},
+            </if>
+            <if test="activeCode != null">
+                activeCode = #{activeCode},
+            </if>
+        </set>
+        where activeID = #{activeID}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteActiveInfo" parameterType="com.test.pojo.Active">
+        delete from pruereadroom.active where activeID = #{activeID}
+    </delete>
+
+</mapper>

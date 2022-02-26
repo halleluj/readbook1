@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.mapper.ArticleMapper">
+    <!--新增所有列-->
+    <insert id="addArticleInfo" parameterType="com.test.pojo.Article">
+        insert into pruereadroom.article(article_name, article_picture, article_part, article_content)
+        values (#{article_name}, #{article_picture}, #{article_part}, #{article_content})
+    </insert>
+
+    <!--通过主键删除-->
+    <delete id="deleteArticleInfo" parameterType="com.test.pojo.Article">
+        delete from pruereadroom.article
+        where article_id = #{article_id}
+    </delete>
+
+    <!--查询单个-->
+    <select id="selectArticle"  resultType="com.test.pojo.Article">
+        select * from pruereadroom.article
+        where article_id = #{article_id}
+    </select>
+    <!--通过主键修改数据-->
+    <update id="updateArticle"  parameterType="com.test.pojo.Article">
+        update pruereadroom.article
+        <set>
+            <if test="article_name != null and article_name != ''">
+                article_name = #{article_name},
+            </if>
+            <if test="article_picture != null and article_picture != ''">
+                article_picture = #{article_picture},
+            </if>
+            <if test="article_part != null and article_part != ''">
+                article_part = #{article_part},
+            </if>
+            <if test="article_content != null">
+                article_content = #{article_content},
+            </if>
+        </set>
+        where article_id = #{article_id}
+    </update>
+    <!--查询指定行数据-->
+    <select id="selectArticleInfos"  resultType="com.test.pojo.Article">
+        select *
+        from pruereadroom.article
+        limit #{page}, #{limit}
+    </select>
+</mapper>

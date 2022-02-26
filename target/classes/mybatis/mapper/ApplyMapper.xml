@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.mapper.ApplyMapper">
+
+    <!--查询单个-->
+    <select id="selectinfomation" resultType="com.test.pojo.Applicationform">
+        select *
+        from pruereadroom.applicationform
+        where ApplyID = #{ApplyID}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="selectinformations" resultType="com.test.pojo.Applicationform">
+        select *
+        from pruereadroom.applicationform
+        limit #{page}, #{limit}
+    </select>
+<!-- 查询指定UID的用户参与的活动-->
+    <select id="selectinformationsByok" resultType="com.test.pojo.Applicationform">
+        select * from pruereadroom.applicationform
+        <where>
+         <if test="UID !=null">
+             and UID=#{UID}
+         </if>
+          <if test="activeCode !=null">
+            and activeCode=#{activeCode}
+          </if>
+        </where>
+        limit #{page}, #{limit}
+    </select>
+
+<!--    &lt;!&ndash;通过实体作为筛选条件查询&ndash;&gt;-->
+<!--    <select id="selectbykeyword" resultType="com.test.pojo.Applicationform">-->
+<!--        select *-->
+<!--        from pruereadroom.apply-->
+<!--        <where>-->
+<!--            <if test="ApplyID != null">-->
+<!--                and ApplyID = #{ApplyID}-->
+<!--            </if>-->
+<!--            <if test="UID != null">-->
+<!--                and UID = #{UID}-->
+<!--            </if>-->
+<!--            <if test="activeID != null">-->
+<!--                and activeID = #{activeID}-->
+<!--            </if>-->
+<!--            <if test="w_id != null">-->
+<!--                and w_id = #{w_id}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+
+
+    <!--新增所有列-->
+    <insert id="insertNewApply" parameterType="com.test.pojo.Apply">
+        insert into pruereadroom.apply(UID, activeID, w_id)
+        values (#{UID}, #{activeID}, #{w_id})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateNewApply" parameterType="com.test.pojo.Apply">
+        update pruereadroom.apply
+        <set>
+            <if test="UID != null">
+                UID = #{UID},
+            </if>
+            <if test="activeID != null">
+                activeID = #{activeid},
+            </if>
+            <if test="w_id != null">
+                w_id = #{w_id},
+            </if>
+        </set>
+        where ApplyID = #{ApplyID}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteApply" parameterType="com.test.pojo.Apply">
+        delete from pruereadroom.apply where ApplyID = #{ApplyID}
+    </delete>
+
+</mapper>
